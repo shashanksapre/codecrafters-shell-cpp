@@ -20,6 +20,11 @@ int main()
       isExit = true;
       continue;
     }
+    else if (input.substr(0, 4) == "echo")
+    {
+      std::cout << input.substr(5) << "\n";
+      std::cout << "$ ";
+    }
     else
     {
       std::cout << input << ": command not found\n";
