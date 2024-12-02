@@ -1,3 +1,5 @@
+#include <map>
+#include <functional>
 #include <iostream>
 
 int main()
@@ -9,21 +11,39 @@ int main()
   // Uncomment this block to pass the first stage
   std::cout << "$ ";
 
+  std::string input;
   bool isExit = false;
+
+  std::map<std::string, std::function<void()>> commands = {
+      {"echo", [&input]()
+       {
+         std::cout << input.substr(5) << "\n";
+         std::cout << "$ ";
+       }},
+      {"type", [&input]()
+       {
+         if (input.substr(5) == "echo" || input.substr(5) == "type" || input.substr(5) == "exit")
+         {
+           std::cout << input.substr(5) << " is a shell builtin" << "\n";
+         }
+         else
+         {
+           std::cout << input.substr(5) << ": not found\n";
+         }
+         std::cout << "$ ";
+       }},
+      {"exit", [&isExit]()
+       {
+         isExit = true;
+       }}};
 
   while (isExit == false)
   {
-    std::string input;
     std::getline(std::cin, input);
-    if (input.substr(0, 4) == "exit")
+    auto it = commands.find(input.substr(0, input.find(' ')));
+    if (it != commands.end())
     {
-      isExit = true;
-      continue;
-    }
-    else if (input.substr(0, 4) == "echo")
-    {
-      std::cout << input.substr(5) << "\n";
-      std::cout << "$ ";
+      it->second();
     }
     else
     {
