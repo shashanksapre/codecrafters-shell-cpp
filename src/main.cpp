@@ -1,3 +1,5 @@
+#include <cstdlib>
+#include <vector>
 #include <map>
 #include <functional>
 #include <iostream>
@@ -7,6 +9,22 @@ int main()
   // Flush after every std::cout / std:cerr
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
+
+  const char *path = std::getenv("PATH");
+
+  std::vector<std::string> dirs;
+
+  for (const char *p = path; *p != '\0'; p++)
+  {
+    if (*p == ':')
+    {
+    }
+  }
+
+  if (path != nullptr)
+  {
+    std::string pathStr(path);
+  }
 
   // Uncomment this block to pass the first stage
   std::cout << "$ ";
